@@ -1,39 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'screens/scanner_screen.dart';
-import 'services/plantnet_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:plant_scan/screens/splash_screen.dart';
 import 'theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-  ));
-
-  runApp(const PlantIdApp());
+  await dotenv.load(fileName: '.env');
+  runApp(const PlantScanApp());
 }
 
-class PlantIdApp extends StatelessWidget {
-  const PlantIdApp({super.key});
+class PlantScanApp extends StatelessWidget {
+  const PlantScanApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const apiKey = '2b10Pv7V9eMdMEsrpQpEGTIYv';
-
-    final plantNetService = PlantNetService(apiKey: apiKey);
-
     return MaterialApp(
-      title: 'PlantID',
+      title: 'PLANT SCAN',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      home: ScannerScreen(plantNetService: plantNetService),
+      home: const SplashScreen(),
     );
   }
 }
